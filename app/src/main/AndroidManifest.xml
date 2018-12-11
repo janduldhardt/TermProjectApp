@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.jan.termprojectapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,7 +21,8 @@
         <activity android:name=".TermCalculationGame" />
         <activity android:name=".TermCalculationGameResult" />
         <activity android:name=".ColorGame" />
-        <activity android:name=".colorGameResultActivity"></activity>
+        <activity android:name=".colorGameResultActivity" />
+        <activity android:name=".HighscoreActivity"></activity>
     </application>
 
 </manifest>

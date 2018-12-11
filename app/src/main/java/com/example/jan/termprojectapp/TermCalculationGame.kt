@@ -25,6 +25,7 @@ class TermCalculationGame : AppCompatActivity() {
     var locationCorrectAnswer = 0;
     var sumAnswer = 0;
     var timerFinished : Boolean = false;
+    var isItStopped = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,11 +85,21 @@ class TermCalculationGame : AppCompatActivity() {
 
     }
 
+    public fun isStopped(): Boolean {
+        return isItStopped
+    }
+
     fun gameTimer() {
         object : CountDownTimer(10000, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
+                if(isStopped()) {
+                    cancel()
+                    startResultActivity()
+                }
             }
+
+
 
             override fun onFinish() {
                 timerFinished = true
@@ -226,6 +237,11 @@ class TermCalculationGame : AppCompatActivity() {
         calcGame_btn_2.setText(Integer.toString(answers.get(1)))
         calcGame_btn_3.setText(Integer.toString(answers.get(2)))
         calcGame_btn_4.setText(Integer.toString(answers.get(3)))
+    }
+
+    override fun onBackPressed() {
+        isItStopped = true
+
     }
 
 

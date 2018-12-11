@@ -34,5 +34,16 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        MainActivity_btn_highscore.setOnClickListener {
+            val intent = Intent(this, HighscoreActivity::class.java)
+            startActivity(intent)
+        }
+
     }
+
+    override fun onBackPressed() {
+        System.exit(0)
+    }
+
+
 }
