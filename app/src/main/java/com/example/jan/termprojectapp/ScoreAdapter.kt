@@ -25,4 +25,8 @@ class ScoreAdapter(val mContext : Context, val layoutResID : Int, val scoreList 
 
         return view
     }
+
+    override fun getCount(): Int {
+        return 10
+    }
 }
