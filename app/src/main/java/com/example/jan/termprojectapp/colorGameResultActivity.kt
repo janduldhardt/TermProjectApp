@@ -27,7 +27,9 @@ class colorGameResultActivity : AppCompatActivity() {
 
         ref = FirebaseDatabase.getInstance().getReference("ColorGameScores")
 
-    scoreList = mutableListOf()
+
+        /****Here the ListView of Highscores is created**********/
+        scoreList = mutableListOf()
         ref.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -49,6 +51,8 @@ class colorGameResultActivity : AppCompatActivity() {
 
         })
 
+        /**************Button onClicklisteners**************/
+
         colorGameResult_btn_playAgain.setOnClickListener {
             val intent = Intent(this, ColorGame::class.java)
             startActivity(intent)
@@ -69,6 +73,8 @@ class colorGameResultActivity : AppCompatActivity() {
 
 
     }
+
+    /*******************Function to save the score in Firebase***************/
 
     private fun saveScore() {
         val name = colorGameResult_etxt_name.text.toString()

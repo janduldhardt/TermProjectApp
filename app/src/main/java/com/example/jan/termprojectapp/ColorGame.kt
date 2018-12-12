@@ -15,24 +15,25 @@ import java.util.*
 const val EXTRA_Message3 = "com.example.jan.termprojectapp.ScoreColorGame"
 
 
-class ColorGame : AppCompatActivity() , GestureDetector.OnGestureListener{
+class ColorGame : AppCompatActivity(), GestureDetector.OnGestureListener {
 
 
-    private lateinit var mDetector : GestureDetectorCompat
+    private lateinit var mDetector: GestureDetectorCompat
 
-    lateinit var tvQuestion : TextView
-    lateinit var tvScore : TextView
-    lateinit var tvTime : TextView
+    lateinit var tvQuestion: TextView
+    lateinit var tvScore: TextView
+    lateinit var tvTime: TextView
 
     var score = 0
-    var isItStopped : Boolean = false
+    var isItStopped: Boolean = false
 
-    override fun onCreate(savedInstanceState: Bundle?)  {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_color_game)
-        mDetector = GestureDetectorCompat(this,this)
+        mDetector = GestureDetectorCompat(this, this)
         tvQuestion = colorGame_tv_Question
         tvScore = colorGame_tv_Score
+        tvScore.setText(score.toString())
         tvTime = colorGame_tv_time
         gameTimer()
         randomColour()
@@ -40,7 +41,7 @@ class ColorGame : AppCompatActivity() , GestureDetector.OnGestureListener{
     }
 
 
-    fun randomText(){
+    fun randomText() {
 
         val rnd = Random()
         var colourNum = rnd.nextInt(5)
@@ -49,32 +50,32 @@ class ColorGame : AppCompatActivity() , GestureDetector.OnGestureListener{
         } else if (colourNum == 1) {
             tvQuestion.setText("blue")
 
-        }else if (colourNum == 2) {
+        } else if (colourNum == 2) {
             tvQuestion.setText("yellow")
 
-        }else if (colourNum == 3) {
+        } else if (colourNum == 3) {
             tvQuestion.setText("green")
 
-        }else if (colourNum == 4) {
+        } else if (colourNum == 4) {
             tvQuestion.setText("black")
         }
     }
 
-    fun randomColour(){
+    fun randomColour() {
         val rnd = Random()
         var colourNum = rnd.nextInt(5)
         if (colourNum == 0) {
             tvQuestion.setTextColor(-65536)
         } else if (colourNum == 1) {
-            tvQuestion.setTextColor( -256)
+            tvQuestion.setTextColor(-256)
 
-        }else if (colourNum == 2) {
+        } else if (colourNum == 2) {
             tvQuestion.setTextColor(-16776961)
 
-        }else if (colourNum == 3) {
+        } else if (colourNum == 3) {
             tvQuestion.setTextColor(-16711936)
 
-        }else if (colourNum == 4) {
+        } else if (colourNum == 4) {
             tvQuestion.setTextColor(-16777216)
 
         }
@@ -82,20 +83,20 @@ class ColorGame : AppCompatActivity() , GestureDetector.OnGestureListener{
 
     /******************Check if Answer Color and Text are correct***********************/
 
-    fun getColorInt() : Int {
+    fun getColorInt(): Int {
         return tvQuestion.currentTextColor
     }
 
-    fun isTextColor() : Boolean {
-        if(tvQuestion.text.equals("red") && getColorInt() == -65536){
+    fun isTextColor(): Boolean {
+        if (tvQuestion.text.equals("red") && getColorInt() == -65536) {
             return true;
-        }else if(tvQuestion.text.equals("blue") && getColorInt() == -16776961){
+        } else if (tvQuestion.text.equals("blue") && getColorInt() == -16776961) {
             return true;
-        }else if(tvQuestion.text.equals("yellow") && getColorInt() ==  -256){
+        } else if (tvQuestion.text.equals("yellow") && getColorInt() == -256) {
             return true;
-        }else if(tvQuestion.text.equals("green") && getColorInt() == -16711936){
+        } else if (tvQuestion.text.equals("green") && getColorInt() == -16711936) {
             return true;
-        }else if(tvQuestion.text.equals("black") && getColorInt() == -16777216){
+        } else if (tvQuestion.text.equals("black") && getColorInt() == -16777216) {
             return true;
         } else {
             return false;
@@ -111,9 +112,9 @@ class ColorGame : AppCompatActivity() , GestureDetector.OnGestureListener{
         object : CountDownTimer(10000, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
-                tvTime.setText(""+millisUntilFinished / 1000 + "s")
+//                tvTime.setText(""+millisUntilFinished / 1000 + "s")
 
-                if(isStopped()) {
+                if (isStopped()) {
                     cancel()
                     startResultActivity()
                 }
@@ -136,7 +137,6 @@ class ColorGame : AppCompatActivity() , GestureDetector.OnGestureListener{
     }
 
 
-
     /********************************************************************************/
     /*******************************Gesture Detector Methods***********************/
     /*******************************************************************************/
@@ -144,6 +144,7 @@ class ColorGame : AppCompatActivity() , GestureDetector.OnGestureListener{
         this.mDetector.onTouchEvent(event)
         return super.onTouchEvent(event)
     }
+
     override fun onShowPress(e: MotionEvent?) {
     }
 
@@ -163,11 +164,10 @@ class ColorGame : AppCompatActivity() , GestureDetector.OnGestureListener{
                 score--
                 isItStopped = true
             }
-        } else{
+        } else {
             if (isTextColor()) {
                 score--
                 isItStopped = true
-
 
 
             } else {
@@ -191,8 +191,6 @@ class ColorGame : AppCompatActivity() , GestureDetector.OnGestureListener{
         isItStopped = true
 
     }
-
-
 
 
 }

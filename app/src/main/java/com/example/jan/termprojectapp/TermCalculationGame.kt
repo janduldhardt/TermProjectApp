@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_term_calculation_game.*
 import java.util.*
 import kotlin.concurrent.timer
 import android.support.v4.os.HandlerCompat.postDelayed
-
+import com.bumptech.glide.Glide
 
 
 const val EXTRA_Message = "com.example.jan.termprojectapp.Score"
@@ -26,10 +26,13 @@ class TermCalculationGame : AppCompatActivity() {
     var sumAnswer = 0;
     var timerFinished : Boolean = false;
     var isItStopped = false
+    var numLives = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_term_calculation_game)
+        Glide.with(this).load(R.drawable.heartthree).into(termCalc_img_lives)
+
         calcGame_btn_1.setTag(0)
         calcGame_btn_2.setTag(1)
         calcGame_btn_3.setTag(2)
@@ -50,12 +53,20 @@ class TermCalculationGame : AppCompatActivity() {
                 generateQuestion()
                 score++
                 numberOfQuestions++
-                calcGame_tv_score.setText("$score / $numberOfQuestions")
+                calcGame_tv_score.setText("$score")
 //            textView2.setText("Correct")
 //            textView2.setTextColor(Color.parseColor("#2ac075"))
 
             } else {
                 generateQuestion()
+                numLives--
+                if (numLives==2){
+                    Glide.with(this).load(R.drawable.hearttwo).into(termCalc_img_lives)
+                } else if (numLives==1) {
+                    Glide.with(this).load(R.drawable.heartone).into(termCalc_img_lives)
+                } else if (numLives==0){
+                    isItStopped = true
+                }
                 numberOfQuestions++
                 calcGame_tv_score.setText("$score / $numberOfQuestions")
 //            textView2.setText("Wrong")
@@ -89,6 +100,10 @@ class TermCalculationGame : AppCompatActivity() {
         return isItStopped
     }
 
+
+
+
+
     fun gameTimer() {
         object : CountDownTimer(10000, 1000) {
 
@@ -97,6 +112,7 @@ class TermCalculationGame : AppCompatActivity() {
                     cancel()
                     startResultActivity()
                 }
+
             }
 
 

@@ -5,15 +5,20 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_color_game_result.*
 import kotlinx.android.synthetic.main.activity_term_calculation_game_result.*
+import java.util.*
 
 class TermCalculationGameResult : AppCompatActivity() {
 
 
     lateinit var editTextName : EditText
     lateinit var database : DatabaseReference
+
+    val ref = FirebaseDatabase.getInstance().getReference("TermCalcScores")
+    lateinit var scoreList : MutableList<ScoreEntry>
+
 
     var isSaved : Boolean = false
 
@@ -26,6 +31,29 @@ class TermCalculationGameResult : AppCompatActivity() {
         editTextName = calcResult_etxt_name
 
         calcResult_tv_Score.setText(score.toString())
+
+        scoreList = mutableListOf()
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    scoreList.clear()
+
+                    for (h in p0.children) {
+                        val entry = h.getValue(ScoreEntry::class.java)
+                        scoreList.add(entry!!)
+
+                    }
+                    Collections.sort(scoreList, HighscoreActivity.CustomComperatorNumber())
+                    val adapter = ScoreAdapter(applicationContext, R.layout.scores, scoreList)
+                    listView3.adapter = adapter
+                }
+            }
+
+        })
 
         calcResult_btn_playAgain.setOnClickListener {
             val intent = Intent(this@TermCalculationGameResult, TermCalculationGame::class.java)
@@ -60,7 +88,6 @@ class TermCalculationGameResult : AppCompatActivity() {
             return
         }
 
-        val ref = FirebaseDatabase.getInstance().getReference("TermCalcScores")
         val entryID = ref.push().key
 
         val entry = ScoreEntry(entryID!!, name, score.toInt())
